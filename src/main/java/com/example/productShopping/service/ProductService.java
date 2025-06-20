@@ -6,6 +6,7 @@ import com.example.productShopping.model.User;
 import com.example.productShopping.repository.ProductRepository;
 import com.example.productShopping.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO addProduct(String username, ProductDTO productDto) {
+    public ProductDTO addProduct(String username, @Valid ProductDTO productDto) {
         User user = (User) userRepository.findByUsername (username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -69,7 +70,7 @@ public class ProductService {
 
     @Transactional
 
-    public ProductDTO updateProduct(String username, Long productId, ProductDTO productDto) {
+    public ProductDTO updateProduct(String username, Long productId, @Valid ProductDTO productDto) {
 // Find the product belonging to the specific user
         Product product = productRepository.findByIdAndUser_Username(productId, username)
                 .orElseThrow(() -> new RuntimeException("Product not found or access denied"));
